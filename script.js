@@ -105,3 +105,19 @@ draw(iter) {
     }
   }
 }
+
+follow(iter) {
+  var x = this.parent.x;
+  var y = this.parent.y;
+  var dist = ((this.x - x) ** 2 + (this.y - y) ** 2) ** 0.5;
+  this.x = x + this.size * (this.x - x) / dist;
+  this.y = y + this.size * (this.y - y) / dist;
+  this.absAngle = Math.atan2(this.y - y, this.x - x);
+  this.relAngle = this.absAngle - this.parent.absAngle;
+  this.updateRelative(false, true);
+  if (iter) {
+    for (var i = 0; i <this.children.length; i++) {
+      this.children[i].follow(true);
+    }
+  }
+}
